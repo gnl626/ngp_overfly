@@ -1,1 +1,187 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static string moon1(int n)
+        {
+            // 1.길이가 n이고, 수박수박수박수....와 같은 패턴을 유지하는 문자열을 리턴하는 함수
+            // 예를들어 n이 4이면 수박수박을 리턴하고 3이라면 수박수를 리턴하면 됩니다.
+            string str = "김종휘";
+            string answer = null;
+            for(int i = 0; i < n; ++i)
+            {
+                answer += str[i % 3];
+            }
+
+            return answer;
+        }
+        static void moon2(int[] arr, int n)
+        {
+            // 2. int 배열을 인자로 받고, 함수의 2번째 인자는 숫자를 받습니다.
+            // 배열내부의 값이 2번째 인자라면 해당 값을 0으로 바꾸는 함수를 만어주세요
+            foreach(int i in arr)
+            {
+                if(i == n)
+                {
+                    arr[i] = 0;
+                }
+            }
+        }
+        static string moon3(int num)
+        {
+            // 3. 정수 num이 짝수일 경우 Even을 반환하고 홀수인 경우 Odd를 반환하는 함수, solution을 완성해주세요.
+            string str = null;
+            if (num % 2 == 0) str = "Even";
+            else str = "Odd";
+            return str;
+
+        }
+        static int moon4(int n)
+        {
+            /* 4.번문제
+            1937년 Collatz란 사람에 의해 제기된 이 추측은,
+            입력된 수가 짝수라면 2로 나누고, 홀수라면 3을 곱하고 1을 더한 다음,
+            결과로 나온 수에 같은 작업을 1이 될 때까지 반복할 경우
+            모든 수가 1이 된다는 추측입니다.
+            예를 들어, 입력된 수가 6이라면 6→3→10→5→16→8→4→2→1 이 되어 총 8번 만에 1이 됩니다.
+            입력된 수가 몇 번 만에 1이 되는지 반환하는 함수,
+            solution을 완성해 주세요. 단, 500번을 반복해도 1이 되지 않는다면 –1을 반환해 주세요.
+            */
+            int num = n;
+            int count = 0;
+            for(int i = 0; i < 500; ++i)
+            {
+                if (num == 1) return count;
+                if (num % 2 == 0)
+                {
+                    num /= 2;
+                    count++;
+                }
+                else if (num % 2 == 1)
+                {
+                    num *= 3;
+                    num++;
+                    count++;
+                }
+            }
+            return -1;
+        }
+        static void moon5(int n, int m)
+        {
+            /* 5
+            이 문제에는 표준 입력으로 두 개의 정수 n과 m이 주어집니다.
+            별(*) 문자를 이용해 가로의 길이가 n, 세로의 길이가 m인 직사각형 형태를 출력해보세요.
+            
+            5 3
+            
+            *****
+            *****
+            *****
+            */
+            for(int i = 0; i < m; ++i)
+            {
+                for(int j = 0; j < n; ++j)
+                {
+                    Console.Write('*');
+                }
+                Console.WriteLine();
+            }
+        }
+        static bool moon6(string s)
+        {
+            /* 6번문제
+            문자열 s의 길이가 4혹은 6이고, 숫자로만 구성되있는지 확인해주는 함수, solution을 완성하세요.
+            예를들어 s가 a234이면 false를 리턴하고 1234라면 true를 리턴하면 됩니다.
+            */
+            if (s.Length == 4 || s.Length == 6)
+            {
+                for(int i = 0; i < s.Length; ++i)
+                {
+                    if (char.IsDigit(s[i]) == false)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        static int moon7(string s)
+        {
+            /* 7번문제
+            문자열 s를 숫자로 변환한 결과를 반환하는 함수, solution을 완성하세요.
+            
+            제한 조건
+            s의 길이는 1 이상 10,000이하입니다.
+            s의 맨앞에는 부호(+, -)가 올 수 있습니다.
+            s는 부호와 숫자로만 이루어져있습니다.
+            s는 0으로 시작하지 않습니다.
+            
+            예를들어 str이 1234이면 1234를 반환하고, -1234이면 -1234를 반환하면 됩니다.
+            str은 부호(+,-)와 숫자로만 구성되어 있고, 잘못된 값이 입력되는 경우는 없습니다.
+            */
+            int answer = 0;
+            int.TryParse(s, out answer);
+            return answer;
+        }
+        static int moon8(int n)
+        {
+            /* 8
+            Finn은 요즘 수학공부에 빠져 있습니다. 수학 공부를 하던 Finn은 자연수 n을 연속한 자연수들로 표현 하는 방법이 여러개라는 사실을 알게 되었습니다. 예를들어 15는 다음과 같이 4가지로 표현 할 수 있습니다.
+            
+            1 + 2 + 3 + 4 + 5 = 15
+            4 + 5 + 6 = 15
+            7 + 8 = 15
+            15 = 15
+            자연수 n이 매개변수로 주어질 때, 연속된 자연수들로 n을 표현하는 방법의 수를 return하는 solution를 완성해주세요.
+            
+            제한사항
+            n은 10,000 이하의 자연수 입니다.
+            */
+            int temp = 0;
+            int count = 0;
+            if (n == 1) return n;
+            else
+            {
+                for(int i = 0; i < n; ++i)
+                {
+                    for(int j = i; j < n; ++j)
+                    {
+                        temp += j;
+                        if (temp == n)
+                        {
+                            Console.Write(i + ", " + j + ", " + temp + "\n");
+                            count++;
+                            break;
+                        }
+                    }
+                    temp = 0;
+                }
+            }
+            return count;
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine(moon1(20));
+            int[] aArr = new int[10];
+            for (int i = 0; i < 10; ++i)
+                aArr[i] = i;
+            moon2(aArr, 5);
+            for (int i = 0; i < 10; ++i)
+                Console.Write(aArr[i] + ", ");
+            Console.WriteLine();
+            Console.WriteLine(moon3(4));
+            Console.WriteLine(moon4(100));
+            moon5(5, 3);
+            Console.WriteLine(moon6("12a34"));
+            Console.WriteLine(moon7("1234"));
+            Console.WriteLine(moon8(100));
+        }
+    }
+}
