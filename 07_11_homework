@@ -1,0 +1,93 @@
+using System;
+using System.Text;
+
+namespace ConsoleApp2
+{
+    class Program
+    {
+        //1. int a 단만 출력하는 구구단을 출력하는 함수 작성
+        //2. 삼각형 이등변 피라미드 출력하는 함수 작성
+        //3. 두 정수 a, b가 주어졌을 때 a와 b 사이의 속한 모든 정수의 합을 리턴하는 함수 작성(ex:3, 5 이면 3 + 4 + 5 리턴)
+        //4. 자연수 n을 입력받아 n의 약수를 모두 더한 값을 리턴하는 함수
+        //2. 정수를 담공 있는 배열 arr의 평균값을 리턴하는 함수
+        //5. 길이가 n이고, 수박수박수박수.....같은 패턴을 유지하는 문자열을 리턴하는 함수
+        //예를들어 n이 4이면 수박수박을 리턴하고 3이라면 수박수를 리턴하면 됩니다
+        //6. int 배열을 인자로 받고, 함수의 2번째 인자는 숫자를 받습니다.
+        //7. 정수를 담고 있는 배열 arr의 평균값을 return하는 함수, solution을 완성해보세요
+        //8. 정수 num이 짝수일 경우 Even을 반환하고 올수일 경우 Odd를 반환하는 함수, solution을 완성해주세요.
+        //9. 
+        static void moon1(int a)
+        {
+            for(int i = 1; i < 10; ++i)
+            {
+                Console.Write(a);
+                Console.Write(" x ");
+                Console.Write(i);
+                Console.Write(" = ");
+                Console.Write(a*i);
+                Console.WriteLine();
+            }
+        }
+        static void moon2()
+        {
+            string nemo = "■";
+            string space = "  ";
+            for(int i = 0; i < 16; ++i)
+            {
+                for(int j = 0; j < 16; ++j)
+                {
+                    if (j < (16 / 2) - (i / 2))
+                        Console.Write(space);
+                    else if (j > (16 / 2) + (i / 2))
+                        Console.Write(space);
+                    else
+                        Console.Write(nemo);
+                }
+                Console.WriteLine();
+            }
+        }
+        static int moon3(int a, int b)
+        {
+            //3. 두 정수 a, b가 주어졌을 때 a와 b 사이의 속한 모든 정수의 합을 리턴하는 함수 작성(ex:3, 5 = 3 + 4 + 5)
+            int num = 0;
+            for(int i = a; i <= b; ++i)
+            {
+                num += i;
+            }
+            Console.WriteLine(num);
+            return num;
+        }
+        static int moon4(int n)
+        {
+            //4. 자연수 n을 입력받아 n의 약수를 모두 더한 값을 리턴하는 함수
+            int num = 0;
+            for(int i = 1; i <= n; ++i)
+            {
+               if (n % i == 0)
+                  num += i;
+            }
+            Console.WriteLine(num);
+            return num;
+        }
+        static int moon5(int[] arr)
+        {
+            //2. 정수를 담공 있는 배열 arr의 평균값을 리턴하는 함수
+            int num = 0;
+            foreach (int i in arr)
+                num += i;
+            Console.WriteLine(num / 2);
+            return num / 2;
+        }
+
+        static void Main(string[] args)
+        {
+            int[] a = new int[10];
+            for(int i = 0; i < 10; ++i)
+            {
+                a[i] = i + 1;
+            }
+            moon5(a);
+            //if(char.IsDigit(eee[0]) == true)
+        }
+    }
+}
