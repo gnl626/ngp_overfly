@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace hwi
+{
+    class Program
+    {
+		public static List<int> nResult = new List<int>() { 0, 1, 1 };
+		public static int nStep = 2;
+
+		public static int Fibo(int n)
+		{
+			if (n <= 0) return 0;
+			if (n <= 2) return 1;
+			if(nStep < n)
+			{
+				for(int i = nStep; i <= n; ++i)
+				{
+					nResult.Add(nResult[i - 1] + nResult[i - 2]);
+				}
+				nStep = n;
+			}
+			return nResult[n];
+		}
+		static List<List<int>> m_liGuGu = new List<List<int>>();
+		public int GuGu(int a, int b)
+		{
+			Console.WriteLine(a * b);
+			return 0;
+		}
+		class floor
+		{
+			int enemy;
+			int item;
+			int trap;
+			int exp;
+			string makingname;
+			string m_ID;
+
+			public floor() { }
+
+			public floor(int emy, int tem, int tr, int ex, string mkn, string ID)
+			{
+				enemy = emy;
+				item = tem;
+				trap = tr;
+				exp = ex;
+				makingname = mkn;
+				m_ID = ID;
+			}
+			public void info()
+			{
+				Console.WriteLine("myInfo");
+			}
+		}
+        static void Main(string[] args)
+        {
+			Console.WriteLine(Fibo(10000000));
+			Console.WriteLine(nStep);
+			Console.WriteLine(nResult.Count);
+			List<int> juseyo = new List<int>();
+			for(int i = 1; i < 100; ++i)
+			{
+				if (i % 3 == 0) juseyo.Add(i);
+			}
+			Dictionary<int,floor> map = new Dictionary<int, floor>();
+
+			floor ad = new floor(1, 10, 3, 20, "마왕", "exid");
+			floor ad2 = new floor(2, 10, 3, 20, "마왕", "exid");
+
+			map.Add(0, ad);
+			map[0] = ad2;
+			map[0].info();
+
+			LinkedList<int> m_li = new LinkedList<int>();
+			m_li.AddLast(1);
+			m_li.AddLast(2);
+			m_li.AddLast(3);
+			m_li.AddLast(4);
+			m_li.AddLast(5);
+
+
+			var node = m_li.First;
+			while (node != null)
+			{
+				Console.WriteLine(node.Value);
+				node = node.Next;
+			}
+
+			foreach(var node2 in m_li)
+			{
+				Console.WriteLine(node2);
+			}
+		}
+    }
+}
