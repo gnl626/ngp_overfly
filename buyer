@@ -1,0 +1,121 @@
+using System;
+
+namespace hwi
+{
+    class Program
+    {
+        public class seller
+        {
+            public void init(int num, int gab, int mon)
+            {
+                applenum = num;
+                applegab = gab;
+                money = mon;
+            }
+            int applenum;
+            int applegab;
+            int money;
+
+            public int num
+            {
+                get { return applenum; }
+                set { applenum = value; }
+            }
+            public int gab
+            {
+                get { return applegab; }
+                set { applegab = value; }
+            }
+            public int howMoney
+            {
+                get { return money; }
+                set { money = value; }
+            }
+            public void info()
+            {
+                Console.WriteLine("---셀러\n과일갯수: {0}\n사과값: {1}\n돈: {2}\n", applenum, applegab, money);
+            }
+        }
+        class market
+        {
+            public market() { Console.WriteLine("마켓호출임다"); }
+            static seller[] m_seller = new seller[10];
+            
+
+            public int money;
+            public void init()
+            {
+                money = 0;
+                Console.WriteLine("인잇임다");
+                //m_seller.Initialize();
+                
+              
+            }
+
+            public void info()
+            {
+                Console.WriteLine("------마켓");
+                Console.WriteLine("돈: {0}", money);
+                Console.WriteLine("임포임다");
+                for (int i = 0; i < 10; ++i)
+                {
+                    Console.WriteLine("임포안포문임다");
+                    m_seller[i].info();
+                }
+            }
+
+        }
+        class buyer
+        {
+            public buyer(int num, int mon)
+            {
+                applenum = num;
+                money = mon;
+            }
+            int applenum;
+            int money;
+
+            public int num
+            {
+                get { return applenum; }
+                set { applenum = value; }
+            }
+            public int howMoney
+            {
+                get { return money; }
+                set { money = value; }
+            }
+            public void info()
+            {
+                Console.WriteLine("----바이어\n사과갯수: {0}\n돈: {1}\n", applenum, money);
+            }
+        }
+        static void Main(string[] args)
+        {
+            buyer myBuyer = new buyer(0, 100000);
+            market myMarket = new market();
+            myMarket.init();
+            myBuyer.info();
+            myMarket.info();
+
+            while (true)
+            {
+                int n;
+                n = int.Parse(Console.ReadLine());
+                if (n == -1) break;
+                Console.Clear();
+
+                myBuyer.info();
+            }
+        }
+        static void buy(buyer inputBuyer, seller inputapplePam, int num)
+        {
+            if (inputapplePam.num - num < 0) return;
+            inputapplePam.num -= num;
+            inputapplePam.howMoney += num * inputapplePam.gab;
+
+            inputBuyer.num += num;
+            inputBuyer.howMoney -= num * inputapplePam.gab;
+        }
+    }
+}
