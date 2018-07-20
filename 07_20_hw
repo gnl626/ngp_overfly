@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+
+namespace hwi
+{
+    class Program
+    {
+        class Model
+        {
+            public string n_name;
+            public int n_age;
+            public int n_size;
+
+            public Model() { }
+            public Model(string name, int age) 
+            {
+                n_name = name;
+                n_age = age;
+            }
+            public Model(string name, int age, int size)
+            {
+                n_name = name;
+                n_age = age;
+                n_size = size;
+            }
+            public void info()
+            {
+                Console.WriteLine("저는 " + n_name + "입니다" + " {0}세 입니다", n_age);
+            }
+        }
+        static void Main(string[] args)
+        {
+            //List
+            List<int> vector = new List<int>();
+            for(int i = 1; i < 100; ++i)
+            {
+                vector.Add(i);
+            }
+            List<string> strVector = new List<string>();
+            strVector.Add("안녕");
+            strVector.Add("내 이름은");
+            strVector.Add("김종휘야");
+            for(int i = 0; i < strVector.Count; ++i)
+            {
+                Console.Write(strVector[i] + " ");
+            }
+            List<Model> modelVector = new List<Model>();
+            Model myModel = new Model();
+            myModel.n_name = "피콜로";
+            myModel.n_age = 10;
+            myModel.n_size = 190;
+            modelVector.Add(myModel);
+            //Dictionary
+            Dictionary<int, int> map = new Dictionary<int, int>();
+            map.Add(1, 10);
+            map.Add(2, 20);
+            map.Add(3, 30);
+            map.Add(4, 40);
+            Dictionary<int, string> map2 = new Dictionary<int, string>();
+            map2.Add(1, "피콜로");
+            map2.Add(2, "조로");
+            map2.Add(3, "곤 프릭스");
+            map2.Add(4, "아저씨");
+            Dictionary<int, Model> map3 = new Dictionary<int, Model>();
+            map3.Add(1, new Model(map2[1], map[1]));
+            map3.Add(2, new Model(map2[2], map[2]));
+            map3.Add(3, new Model(map2[3], map[3]));
+            map3.Add(4, new Model(map2[4], map[4]));
+            foreach(var he in map3)
+            {
+                he.Value.info();
+            }
+            //HashSet
+            HashSet<int> set = new HashSet<int>();
+            set.Add(1);
+            set.Add(2);
+            set.Add(3);
+            set.Add(4);
+            HashSet<string> set2 = new HashSet<string>();
+            set2.Add("피콜로");
+            set2.Add("조로");
+            set2.Add("곤 프릭스");
+            set2.Add("아저씨");
+            HashSet<Model> set3 = new HashSet<Model>();
+            //set3.Add(new Model())
+            //LinkedList
+            LinkedList<int> ll = new LinkedList<int>();
+            LinkedList<string> ll2 = new LinkedList<string>();
+            LinkedList<Model> ll3 = new LinkedList<Model>();
+            //stack
+            Stack<int> stk = new Stack<int>();
+            Stack<string> stk2 = new Stack<string>();
+            Stack<Model> stk3 = new Stack<Model>();
+            //queue
+            Queue<int> Que = new Queue<int>();
+            Queue<string> Que2 = new Queue<string>();
+            Queue<Model> Que3 = new Queue<Model>();
+
+        }
+        
+    }
+}
