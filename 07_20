@@ -1,0 +1,113 @@
+using System;
+using System.Collections.Generic;
+
+namespace hwi
+{
+	class Program
+	{
+		class Model
+		{
+			public string n_name;
+			public int n_age;
+			public int n_size;
+
+			public Model() { }
+			public Model(int a) { n_age = a; }
+			public Model(string name, int age)
+			{
+				n_name = name;
+				n_age = age;
+			}
+			public Model(string name, int age, int size)
+			{
+				n_name = name;
+				n_age = age;
+				n_size = size;
+			}
+			public void info()
+			{
+				Console.WriteLine("저는 " + n_name + "입니다" + " {0}세 입니다", n_age);
+			}
+
+			public static void Print() { Console.WriteLine("print"); }
+			public void Print2() { Console.WriteLine("print :" + n_age); }
+		}
+		static void Main(string[] args)
+		{
+			Model myModel = new Model(50);
+
+			System.Action a = Model.Print;
+			a += myModel.Print2;
+
+			//a();
+
+		}
+
+	}
+}
+
+//
+using System;
+using System.Collections.Generic;
+
+namespace hwi
+{
+	class Program
+	{
+		class Model
+		{
+			public string n_name;
+			public int n_age;
+			public int n_size;
+
+			public Model() { }
+			public Model(int a) { n_age = a; }
+			public Model(string name, int age)
+			{
+				n_name = name;
+				n_age = age;
+			}
+			public Model(string name, int age, int size)
+			{
+				n_name = name;
+				n_age = age;
+				n_size = size;
+			}
+			public void info()
+			{
+				Console.WriteLine("저는 " + n_name + "입니다" + " {0}세 입니다", n_age);
+			}
+
+			public static void Print() { Console.WriteLine("print"); }
+			public void Print2() { Console.WriteLine("print :" + n_age); }
+		}
+
+		static int Multi(int a, int b) {
+			return a * b;
+		}
+
+		static int Compare(int a, int b)
+		{
+			return a.CompareTo(b);
+		}
+		enum AA
+		{
+			a, b, c, d, e
+		}
+		static void Main(string[] args)
+		{
+			List<int> li = new List<int> { 1, 3, 4, 2, 5};
+
+			li.Sort();
+
+			foreach(var l in li)
+			{
+				Console.WriteLine(l);
+			}
+
+			Console.WriteLine(AA.a);
+		}
+
+	}
+}
+
