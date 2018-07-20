@@ -110,4 +110,68 @@ namespace hwi
 
 	}
 }
+//
+using System;
+using System.Collections.Generic;
 
+namespace hwi
+{
+	class Program
+	{
+		class Model
+		{
+			public string n_name;
+			public int n_age;
+			public int n_size;
+
+			public Model() { }
+			public Model(int a) { n_age = a; }
+			public Model(string name, int age)
+			{
+				n_name = name;
+				n_age = age;
+			}
+			public Model(string name, int age, int size)
+			{
+				n_name = name;
+				n_age = age;
+				n_size = size;
+			}
+			public void info()
+			{
+				Console.WriteLine("저는 " + n_name + "입니다" + " {0}세 입니다", n_age);
+			}
+
+			public static void Print() { Console.WriteLine("print"); }
+			public void Print2() { Console.WriteLine("print :" + n_age); }
+		}
+
+		static void Main(string[] args)
+		{
+			//1. 닉네임 체크 함수를 만들거임, bool만 리턴
+			//2. 이름 글자 수는 2~8자 사이
+			//3. 욕설 딕셔너리 안에 있는 문자열이 포함된 이름으론 못만듬
+			Dictionary<int, string> mapSwear = new Dictionary<int, string>();
+			mapSwear.Add(1, "강아지");
+			mapSwear.Add(2, "멍멍이");
+			mapSwear.Add(3, "아버지");
+			mapSwear.Add(4, "냐옹이");
+			mapSwear.Add(5, "냥이") ;
+
+			string inputName = null;
+			inputName = Console.ReadLine();
+
+			if(check(inputName, mapSwear))
+				Console.WriteLine("부적절한 이름이라고");
+			else
+				Console.WriteLine("합격ㅋ");
+		}
+
+		static bool check(string name, Dictionary<int, string> map)
+		{
+			foreach(var val in map)
+				if (name.Contains(val.Value)) return true;
+			return false;
+		}
+	}
+}
