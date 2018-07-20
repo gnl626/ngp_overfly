@@ -95,6 +95,42 @@ namespace hwi
             Queue<int> Que = new Queue<int>();
             Queue<string> Que2 = new Queue<string>();
             Queue<Model> Que3 = new Queue<Model>();
+            List<string> input = new List<string>();
+			input.Add("3");
+			input.Add("*");
+			input.Add("4");
+			List<int> inputnum = new List<int>();
+			List<string> inputCalculate = new List<string>();
+			for(int i = 0; i < input.Count; ++i)
+			{
+				int a;
+				bool b = int.TryParse(input[i], out a);
+				if(b)
+				{
+					inputnum.Add(a);
+				}
+				else
+				{
+					inputCalculate.Add(input[i]);
+				}
+			}
+			switch(inputCalculate[0])
+			{
+				case "+":
+					Console.WriteLine(inputnum[0] + inputnum[1]);
+					break;
+				case "-":
+					Console.WriteLine(inputnum[0] - inputnum[1]);
+					break;
+				case "*":
+					Console.WriteLine(inputnum[0] * inputnum[1]);
+					break;
+				case "/":
+					Console.WriteLine(inputnum[0] / inputnum[1]);
+					break;
+				default:
+					break;
+			}
 
         }
         
