@@ -3,122 +3,214 @@ using System.Collections.Generic;
 
 namespace hwi
 {
-	class Program
-	{
-		public class seller
-		{
-			public void init(int num, int gab, int mon)
+    class Program
+    {
+        public class seller
+        {
+            string name;
+            int howMany;
+            int howMuch;
+            int money;
+            int marketIndex;
+            float duty;
+			int myIndex;
+
+			public seller() { }
+			public seller(string na, int many, int much, int mon, int myidex, int idex = 0, int dty = 0)
 			{
-				applenum = num;
-				applegab = gab;
+				name = na;
+				howMany = many;
+				howMuch = much;
 				money = mon;
+				myIndex = myidex;
 			}
-			int applenum;
-			int applegab;
-			int money;
-
-			public int num
+			
+            public int num
+            {
+                get { return howMany; }
+                set { howMany = value; }
+            }
+            public int gab
+            {
+                get { return howMuch; }
+                set { howMuch = value; }
+            }
+            public float howMoney
+            {
+                get { return money; }
+                set { money = (int)value; }
+            }
+			public int gsIndex
 			{
-				get { return applenum; }
-				set { applenum = value; }
+				get { return myIndex; }
+				set { myIndex = value; }
 			}
-			public int gab
+			public float gsDuty
 			{
-				get { return applegab; }
-				set { applegab = value; }
-			}
-			public int howMoney
-			{
-				get { return money; }
-				set { money = value; }
+				get { return duty; }
+				set { duty = value; }
 			}
 			public void info()
-			{
-				Console.WriteLine("---셀러\n과일갯수: {0}\n사과값: {1}\n돈: {2}\n", applenum, applegab, money);
+            {
+                Console.WriteLine("{0}번 " + name +" 상인입니다", myIndex);
+				Console.WriteLine(howMany + "개 있습니다");
+				Console.WriteLine(howMuch + "원 입니다");
+				Console.WriteLine("현재 {0}원 있습니다", money);
+				Console.WriteLine("{0}번째 마켓에 있으며 세금은 {1}% 입니다", marketIndex, duty);
+				Console.WriteLine();
 			}
-		}
-		class market
-		{
-			public market() { Console.WriteLine("마켓호출임다"); }
-			static seller[] m_seller = new seller[10];
+        }
+        
+        class buyer
+        {
+            public buyer(int num, int mon)
+            {
+				apple = num;
+                money = mon;
+            }
+            int apple;
+			int cheese;
+			int meet;
+			int knife;
+			int rapier;
+			int bow;
+			int chainmale;
+			int havymale;
+			int attackLing;
+            int money;
 
-
-			public int money;
-			public void init()
-			{
-				money = 0;
-				for(int i = 0; i < 10; ++i)
+			public void setNum(int index, int num)
+            {
+				switch(index)
 				{
-					m_seller[i] = new seller();
+					case 1:
+						apple += num;
+						break;
+					case 2:
+						cheese += num;
+						break;
+					case 3:
+						meet += num;
+						break;
+					case 4:
+						knife += num;
+						break;
+					case 5:
+						rapier += num;
+						break;
+					case 6:
+						bow += num;
+						break;
+					case 7:
+						chainmale += num;
+						break;
+					case 8:
+						havymale += num;
+						break;
+					case 9:
+						attackLing += num;
+						break;
+					default:
+						break;
 				}
+            }
+            public int howMoney
+            {
+                get { return money; }
+                set { money = value; }
+            }
+            public void info()
+            {
+                Console.WriteLine("바이어 입니다");
+				Console.WriteLine("바이어 입니다");
+				Console.WriteLine("사과 {0}개 있습니다", apple);
+				Console.WriteLine("치즈케잌 {0}개 있습니다", cheese);
+				Console.WriteLine("고기 {0}개 있습니다", meet);
+				Console.WriteLine("단검 {0}개 있습니다", knife);
+				Console.WriteLine("레이피어 {0}개 있습니다", rapier);
+				Console.WriteLine("활 {0}개 있습니다", bow);
+				Console.WriteLine("체인메일 {0}개 있습니다", chainmale);
+				Console.WriteLine("헤비메일 {0}개 있습니다", havymale);
+				Console.WriteLine("공격반지 {0}개 있습니다", attackLing);
+				Console.WriteLine("돈 {0}원 있습니다", money);
+				Console.WriteLine();
+			}
+        }
+        static void Main(string[] args)
+        {
+            buyer myBuyer = new buyer(0, 10000000);
+			seller seller1 = new seller("사과", 100, 5000, 0, 1);
+			seller seller2 = new seller("치즈케잌", 40, 8000, 0, 2);
+			seller seller3 = new seller("고기", 20, 12000, 0, 3);
+			seller seller4 = new seller("단검", 50, 7000, 0, 4);
+			seller seller5 = new seller("레이피어", 25, 15000, 0, 5);
+			seller seller6 = new seller("활", 10, 20000, 0 ,6);
+			seller seller7 = new seller("체인메일", 5, 6000, 0, 7);
+			seller seller8 = new seller("헤비메일", 3, 17000, 0, 8);
+			seller seller9 = new seller("공격반지", 2, 25000, 0, 9);
 
+			List<seller> market1 = new List<seller>();
+			market1.Add(seller1);
+			market1.Add(seller2);
+			market1.Add(seller3);
+			List<seller> market2 = new List<seller>();
+			market2.Add(seller4);
+			market2.Add(seller5);
+			market2.Add(seller6);
+			List<seller> market3 = new List<seller>();
+			market3.Add(seller7);
+			market3.Add(seller8);
+			market3.Add(seller9);
 
-			}
-
-			public void info()
+			for(int i = 0; i < 3; ++i)
 			{
-				Console.WriteLine("------마켓");
-				Console.WriteLine("돈: {0}", money);
-				Console.WriteLine("임포임다");
-				for (int i = 0; i < 10; ++i)
-				{
-					Console.WriteLine("임포안포문임다");
-					m_seller[i].info();
-				}
+				market1[i].gsDuty = 0.1f;
+				market2[i].gsDuty = 0.15f;
+				market3[i].gsDuty = 0.20f;
 			}
-
-		}
-		class buyer
-		{
-			public buyer(int num, int mon)
-			{
-				applenum = num;
-				money = mon;
-			}
-			int applenum;
-			int money;
-
-			public int num
-			{
-				get { return applenum; }
-				set { applenum = value; }
-			}
-			public int howMoney
-			{
-				get { return money; }
-				set { money = value; }
-			}
-			public void info()
-			{
-				Console.WriteLine("----바이어\n사과갯수: {0}\n돈: {1}\n", applenum, money);
-			}
-		}
-		static void Main(string[] args)
-		{
-			buyer myBuyer = new buyer(0, 100000);
-			market myMarket = new market();
-			myMarket.init();
-			myBuyer.info();
-			myMarket.info();
 
 			while (true)
-			{
-				int n;
-				n = int.Parse(Console.ReadLine());
-				if (n == -1) break;
-				Console.Clear();
+            {
+				foreach (var i in market1)
+					i.info();
+				foreach (var i in market2)
+					i.info();
+				foreach (var i in market3)
+					i.info();
 
 				myBuyer.info();
-			}
-		}
-		static void buy(buyer inputBuyer, seller inputapplePam, int num)
-		{
-			if (inputapplePam.num - num < 0) return;
-			inputapplePam.num -= num;
-			inputapplePam.howMoney += num * inputapplePam.gab;
 
-			inputBuyer.num += num;
-			inputBuyer.howMoney -= num * inputapplePam.gab;
-		}
-	}
+				Console.Write("몇번 상인을 이용하겠습니까: ");
+				int marketindex;
+				marketindex = int.Parse(Console.ReadLine());
+				if (marketindex == -1) break;
+				Console.Write("얼마나 구매하시겠습니까: ");
+				int num;
+				num = int.Parse(Console.ReadLine());
+				marketindex--;
+				if ( marketindex / 3 == 0)
+				{
+					buy(myBuyer, market1[marketindex], num);
+				}
+				else if (marketindex / 3 == 1)
+				{
+					buy(myBuyer, market2[marketindex - 3], num);
+				}
+				else if (marketindex / 3 == 2)
+				{
+					buy(myBuyer, market3[marketindex - 6], num);
+				}
+				Console.Clear();
+            }
+        }
+        static void buy(buyer inputBuyer, seller inputapplePam, int num)
+        {
+            if (inputapplePam.num - num < 0) return;
+            inputapplePam.num -= num;
+            inputapplePam.howMoney += (num * inputapplePam.gab) * (1 - inputapplePam.gsDuty);
+
+            inputBuyer.setNum(inputapplePam.gsIndex, num);
+            inputBuyer.howMoney -= num * inputapplePam.gab;
+        }
+    }
 }
