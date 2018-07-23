@@ -162,3 +162,14 @@ namespace hwi
 		}
 	}
 }
+/*숙제
+partial class
+Nullable<T>
+var
+람다
+try, catch
+System.DateTime
+System.TimeSpan
+Sysyem.Diagnostics.Stopwatch
+
+*/
