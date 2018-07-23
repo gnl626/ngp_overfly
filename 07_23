@@ -1,0 +1,164 @@
+using System;
+using System.Collections.Generic;
+
+namespace hwi
+{
+	class Program
+	{
+    partial class EE
+		{
+			int a = 0;
+
+			public EE(int a, int b)
+			{
+
+			}
+		}
+		partial class EE
+		{
+			int b = 0;
+
+			public EE()
+			{
+
+			}
+		}
+		static void Main(string[] args)
+		{
+			List<int> a = null;
+			List<int> b = new List<int>();
+			try
+			{
+				a.Add(1);
+			}
+			catch
+			{
+				Console.WriteLine("안돼");
+			}
+
+			try
+			{
+				b[3] = 3;
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
+			string aa = "aa";
+			System.DateTime.Parse(aa);
+		}
+	}
+}
+//
+using System;
+using System.Collections.Generic;
+
+namespace hwi
+{
+	class Program
+	{
+		public class UI_Text
+		{
+			public string text { get; set; } = string.Empty;
+		}
+
+		public static class OKPopup
+		{
+			public static System.Action m_fpCloseBtn = null;
+			public static System.Action m_fpOKBtn = null;
+			public static UI_Text m_lbText = new UI_Text();
+
+
+			public static void MessageBox(string a_strContent,
+				System.Action a_fpOK, System.Action a_fpCancel)
+			{
+				m_lbText.text = a_strContent;
+				m_fpOKBtn = a_fpOK;
+				m_fpCloseBtn = a_fpCancel;
+			}
+
+			public static void OnClickOKButton()
+			{
+				m_fpOKBtn?.Invoke();	
+				//같고있는 함수를 호출
+				//?.은 null이 아니면 시행해라
+			}
+			public static void OnClickCloseButton()
+			{
+				m_fpCloseBtn?.Invoke();
+			}
+		}
+
+		static void Main(string[] args)
+		{
+			OKPopup.MessageBox("너네들 사탕당 500원 나중에 반납해야돼",
+				() => { Console.WriteLine("OK 버튼 클릭 - 송금"); },
+				() => { Console.WriteLine("Cancel 버튼 클릭 - 현금"); }
+			);
+
+			OKPopup.m_fpOKBtn();
+      
+      List<int> li = new List<int>() { 10, 3, 45, 2, 1, 52 };
+
+			li.Sort(
+				(a, b) =>
+				{
+					return a.CompareTo(b);
+				}
+			);
+
+			foreach (var i in li)
+				Console.WriteLine(i);
+        
+		}
+	}
+}
+//
+using System;
+using System.Collections.Generic;
+
+namespace hwi
+{
+	class Program
+	{
+		public enum epacket
+		{
+			LevelUp,
+		}
+
+		public class STPacket
+		{
+			public STPacket(string a_strData)
+			{
+				strPacket = a_strData;
+			}
+			string strPacket;
+		}
+
+		public class Network
+		{
+			void LevelUp(int a_nNowLevel, Action<bool> a_fpCallback = null)
+			{
+				string strLevel = a_nNowLevel.ToString();
+
+				Send(epacket.LevelUp, new STPacket(strLevel), a_fpCallback);
+			}
+			void Send(epacket ePacket, STPacket a_stPacket, Action<bool> a_fpCallback)
+			{
+				//실제 네트워크 관련 Sedn
+				// WWW.~~~~
+
+				//if(WWW.isDone) {}
+
+				bool bSuccess = true;
+
+				a_fpCallback?.Invoke(bSuccess);
+			}
+		}
+
+		static void Main(string[] args)
+		{
+			
+		}
+	}
+}
