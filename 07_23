@@ -173,3 +173,64 @@ System.TimeSpan
 Sysyem.Diagnostics.Stopwatch
 
 */
+using System;
+
+namespace hwi
+{
+    class Program
+    {
+		public class UI_Text
+		{
+			public string text { get; set; } = string.Empty;
+		}
+		partial class Network
+		{
+			//생성자 모음
+			public Network() {
+				try
+				{
+					Console.WriteLine(m_str);
+					m_levelUpMessage();
+				}
+				catch
+				{
+					Console.WriteLine("에러데스");
+				}
+			}
+		}
+		partial class Network
+		{
+			//함수 모음
+			public static void MessageBox(string a_str, 
+				System.Action a_levelUp)
+			{
+				m_str = a_str;
+				m_levelUpMessage = a_levelUp;
+			}
+		}
+		partial class Network
+		{
+			//변수(델리게이트 포함) 모음
+			public static System.Action m_levelUpMessage = null;
+			public static UI_Text m_lbText = new UI_Text();
+			public static string m_str = null;
+		}
+		static void Main(string[] args)
+        {
+			System.Diagnostics.Stopwatch stp = new System.Diagnostics.Stopwatch();
+			stp.Start();
+			Network.MessageBox("네트워크데스",
+				() => { Console.WriteLine("레벨업 했다데스"); }
+				);
+			Network net = new Network();
+
+			DateTime date1 = new DateTime();
+			Console.WriteLine(date1.DayOfYear);
+			TimeSpan times = new TimeSpan();
+			Console.WriteLine(times.Days);
+			stp.Stop();
+			Console.WriteLine(stp); 
+		}
+	}
+}
+
