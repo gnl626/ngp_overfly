@@ -102,3 +102,81 @@ namespace hwi
 		}
 	}
 }
+//
+using System;
+
+namespace hwi
+{
+	class Program
+	{
+		enum eOpen
+		{
+			none = 0,
+
+			top = 1,
+			right = 2,
+			bottom = 4,
+			left = 8,
+		}
+
+		static void Main(string[] args)
+		{
+			eOpen openDoor = eOpen.none;
+
+			openDoor |= eOpen.left;
+			openDoor |= eOpen.right; 
+			openDoor |= eOpen.top;
+			openDoor |= eOpen.bottom;
+
+			if ((openDoor & eOpen.bottom) == eOpen.bottom)
+				Console.WriteLine("아래 열림");
+			if ((openDoor & eOpen.top) == eOpen.top)
+				Console.WriteLine("위 열림");
+			if ((openDoor & eOpen.left) == eOpen.left)
+				Console.WriteLine("왼 열림");
+			if ((openDoor & eOpen.right) == eOpen.right)
+				Console.WriteLine("오 열림");
+		}
+	}
+}
+//
+using System;
+
+namespace hwi
+{
+	class Program
+	{
+		public class Monster
+		{
+			public int x;
+			public int y;
+			public int HP;
+			public int MP;
+
+			public void show()
+			{
+				Console.WriteLine("x: " + x);
+				Console.WriteLine("y: " + y);
+				Console.WriteLine("HP: " + HP);
+				Console.WriteLine("MP: " + MP);
+			}
+		}
+
+		//4비트 4비트 4비트 4비트
+		public static void SetStat(Monster a_refMonster, ushort a_nStat)
+		{
+			a_refMonster.x = a_nStat >> 12 & 15;
+			a_refMonster.y = a_nStat >> 8 & 15;
+			a_refMonster.HP = a_nStat >> 4 & 15;
+			a_refMonster.MP = a_nStat & 15;
+		}
+
+		static void Main(string[] args)
+		{
+			Monster myMonster = new Monster();
+			SetStat(myMonster, 43690);
+
+			myMonster.show();
+		}
+	}
+}
