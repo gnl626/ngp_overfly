@@ -38,3 +38,67 @@ namespace hwi
 		}
 	}
 }
+//
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
+
+using System.ComponentModel;
+
+using System.Runtime.CompilerServices;
+
+namespace hwi
+{
+	class Program
+	{
+		interface IAddable
+		{
+
+		}
+		class A : IAddable
+		{
+
+		}
+		class B : IAddable
+		{
+
+		}
+		static T ComplexCalc<T, U>(T a, U b, Func<T, U, T> a_refCalculater) where T : class
+									 where U : class
+		{
+			return a_refCalculater(a, b);
+		}
+
+
+		interface IAttackable<T> where T : Character
+		{
+			void Attack(Character a_refChar);
+		}
+		public class Character : IAttackable<Character>
+		{
+			public void Attack(Character a_refChar)
+			{
+
+			}
+		}
+
+
+		public class stack<T>
+		{
+			int position;
+			T[] data = new T[100];
+			public void Push(T obj) => data[position++] = obj;
+			public void Pop(T obj) => data[--position] = obj;
+		}
+		static void Main(string[] args)
+		{
+			string str1 = "첫 스티링";
+			string str2 = "두 스티링";
+
+			var str3 = ComplexCalc(str1, str2,
+				(a, b) => {	return str1 + str2; });
+			Console.WriteLine(str3);
+		}
+	}
+}
