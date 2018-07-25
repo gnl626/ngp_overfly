@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
+
+using System.ComponentModel;
+
+using System.Runtime.CompilerServices;
+
+namespace hwi
+{
+	class Program
+	{
+		interface IAttackable<T> where T : Character
+		{
+			void Attack(Character a_refChar);
+		}
+		public class Character : IAttackable<Character>
+		{
+			public void Attack(Character a_refChar)
+			{
+
+			}
+		}
+
+
+		public class stack<T>
+		{
+			int position;
+			T[] data = new T[100];
+			public void Push(T obj) => data[position++] = obj;
+			public void Pop(T obj) => data[--position] = obj;
+		}
+		static void Main(string[] args)
+		{
+			
+
+		}
+	}
+}
