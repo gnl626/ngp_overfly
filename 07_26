@@ -1,0 +1,189 @@
+using System;
+
+namespace hwi
+{
+	class Program
+	{
+		public interface IGetVal
+		{
+			int nValue { get; }
+		}
+		public int Add<T>(params T[] a) where T : IGetVal
+		{
+			int nReturn = 0;
+
+			foreach (var v in a)
+			{
+				nReturn += v.nValue;
+			}
+			return nReturn;
+		}	
+		static void Main(string[] args)
+		{
+			int[] at = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+			int a = 1;
+			int b = 2;
+			int c = 3;
+
+			Console.WriteLine(Add(at));
+		}
+	}
+}
+//
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace hwi
+{
+	class Program
+	{
+		
+		static void Main(string[] args)
+		{
+			
+			while(true)
+			{
+				var s = Console.ReadLine();
+
+				if (s.Contains("Q") || s.Contains("q")) break;
+				else if (s.Contains("K") || s.Contains("k"))
+				{
+					float fResult = 0.0f;
+					int nResult = 0;
+					Task t1 = Task.Run(() =>
+					{
+						for (int i = 0; i < 100000; ++i)
+						{
+							fResult += 0.01f;
+							nResult += 1;
+						}
+						Console.WriteLine("t1 End");
+					}
+					);
+					Task t2 = Task.Run(() =>
+					{
+						t1.Wait();
+						for (int i = 0; i < 100000; ++i)
+						{
+							fResult += 0.02f;
+							nResult += 1;
+						}
+						Console.WriteLine("t2 End");
+					}
+					);
+					Task t3 = Task.Run(() =>
+					{
+						t2.Wait();
+						for (int i = 0; i < 100000; ++i)
+						{
+							fResult += 0.03f;
+							nResult += 1;
+						}
+						Console.WriteLine("t3 End");
+					}
+					);
+
+					Task.WaitAll(t1, t2, t3);
+
+					Console.WriteLine(fResult);
+					Console.WriteLine(nResult);
+				}
+			}
+		
+		}
+	}
+}
+//
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections;
+using System.Diagnostics;
+
+namespace hwi
+{
+	class Program
+	{
+		private static object Lock = null;
+		public static int nResult = 0;
+		public static float fResult = 0.0f;
+		static Stopwatch st = new Stopwatch();
+
+
+
+		static Program()
+		{
+			Program.Lock = new object();
+		}
+		
+		public static void Add(int n, float f)
+		{
+			//lock(Lock)
+			{
+				nResult += n;
+				fResult += f;
+			}
+		}
+
+		static void Main(string[] args)
+		{
+			
+			while(true)
+			{
+				var s = Console.ReadLine();
+
+				if (s.Contains("Q") || s.Contains("q")) break;
+				else if (s.Contains("K") || s.Contains("k"))
+				{
+					st.Reset();
+					st.Start();
+					nResult = 0;
+					fResult = 0.0f;
+
+					Task t1 = Task.Run(() =>
+					{
+						for (int i = 0; i < 100000000; ++i)
+						{
+							Program.Add(1, 0.01f);
+						}
+						Console.WriteLine("t1 End");
+					});					
+					Task t2 = Task.Run(() =>
+					{
+						t1.Wait();
+						for (int i = 0; i < 100000000; ++i)
+						{
+							Program.Add(1, 0.02f);
+						}
+						Console.WriteLine("t2 End");
+					});
+					Task t3 = Task.Run(() =>
+					{
+						t2.Wait();
+						for (int i = 0; i < 100000000; ++i)
+						{
+							Program.Add(1, 0.03f);
+						}
+						Console.WriteLine("t3 End");
+					}
+					);
+
+					Task.WaitAll(t1, t2, t3);
+
+					st.Stop();
+
+					Console.WriteLine(fResult);
+					Console.WriteLine(nResult);
+					Console.WriteLine("시간 : {0}", st.ElapsedTicks);
+				}
+			}
+		
+		}
+	}
+}
