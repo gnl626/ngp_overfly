@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+
+namespace hwi
+{
+    class Program
+    {
+		static void Main(string[] args)
+		{
+			int n, t, m, p;
+			n = 7; // 2<= n <= 16
+			t = 32; // 0<= t <= 1000
+			m = 2; // 2 <= m <= 100
+			p = 1; // 1 <= p <= m
+			string nStr = "";
+			int temp = 0;
+			int count = 0;
+			int nCount = 0;
+			string nResult = "";
+			
+
+			for(int i = 0; i < t; ++i)
+			{
+				if(temp % n < 10)
+				{
+					nStr += temp % n + count;
+					temp++;
+				}
+				else if (temp % n >= 10)
+				{
+					switch (temp % n)
+					{
+						case 10:
+							nStr += "A";
+							break;
+						case 11:
+							nStr += "B";
+							break;
+						case 12:
+							nStr += "C";
+							break;
+						case 13:
+							nStr += "D";
+							break;
+						case 14:
+							nStr += "E";
+							break;
+						case 15:
+							nStr += "F";
+							break;
+						default:
+							break;
+					}
+					temp++;
+				}
+				if (temp % n == 0 && temp != 0)
+				{
+					//nStr += count;
+					//if(n > 10)
+					{
+						count += 10;
+					}
+					//temp = 0;
+				}
+			}
+			for(int i = 0; i < nStr.Length; ++i)
+			{
+				nCount++;
+				if (nCount == p)
+					nResult += nStr[i];
+				if (nCount == m)
+					nCount = 0;
+			}
+
+			Console.WriteLine(nResult);
+
+		}
+    }
+}
