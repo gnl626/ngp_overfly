@@ -1,0 +1,425 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections;
+using System.Diagnostics;
+
+using static CS_Thread.Test1;
+using static CS_Thread.TestSimpleTask;
+
+namespace hwi
+{
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			// Simple();
+			// Simple2();
+			// Simple3();
+			 Simple4();
+			// Simple5();
+			// Simple6();
+			// Simple7();
+
+			//CStack();
+			//CDictionary();
+			//CQueue();
+			//Compare();
+		}
+	}
+}
+
+namespace CS_Thread
+{
+	public static class Test1
+	{
+		public static void CStack()
+		{
+			//var s = new Stack<int>();
+			var s = new ConcurrentStack<int>();
+
+			Task taskPush = Task.Run(
+				() =>
+				{
+					for (int i = 0; i < 100; ++i)
+					{
+						s.Push(i);
+						Thread.Sleep(10);
+					}
+				}
+				);
+			Task tPop = Task.Run(
+				() =>
+				{
+					int n = 0;
+					int result;
+					while (n < 100)
+					{
+						Thread.Sleep(15);
+					// if(s.Count == 0) {continue;}
+					// if( (result = s.Pop()) > 0)
+					if (s.TryPop(out result))
+						{
+							Console.WriteLine("{0} : {1}", result, n);
+							n++;
+						}
+						Thread.Sleep(15);
+					}
+				}
+				);
+			Task.WaitAll(taskPush, tPop);
+		}
+		public static void CDictionary()
+		{
+			var map = new ConcurrentDictionary<int, string>();
+
+			Task t1 = Task.Run(
+				() =>
+				{
+					int key = 1;
+					while( key <= 100)
+					{
+						if(map.TryAdd(key, "D" + key))
+						{
+							++key;
+						}
+						Thread.Sleep(16);
+					}
+				}
+				);
+			Task t2 = Task.Run(
+				() =>
+				{
+					int key = 1;
+					string val;
+
+					while (key <= 100)
+					{
+						if (map.TryGetValue(key, out val))
+						{
+							Console.WriteLine("{0}, {1}", key, val);
+							++key;
+						}
+						Thread.Sleep(15);
+					}
+				}
+				);
+			Task.WaitAll(t1, t2);
+		}
+		public static void CQueue()
+		{
+			var que = new ConcurrentQueue<int>();
+
+			Task t1 = Task.Run(
+				() =>
+				{
+					for(int i = 0; i < 100; ++i)
+					{
+						que.Enqueue(i);
+						Thread.Sleep(100);
+					}
+				}
+				);
+			Task t2 = Task.Run(
+				() =>
+				{
+					int n = 0;
+					int result;
+
+					while( n<100 )
+					{
+						if(que.TryDequeue(out result))
+						{
+							Console.WriteLine(result);
+							++n;
+						}
+						Thread.Sleep(100);
+					}
+				}
+				);
+			Task.WaitAll(t1, t2);
+		}
+
+		const int nUnti = 10000;
+
+		static public void UsingStack()
+		{
+			Console.WriteLine("UsingStack start");
+
+			Stopwatch st = new Stopwatch();
+			Stack<int> s = new Stack<int>();
+
+			st.Start();
+
+			for(int i = 0; i < nUnti; ++i)
+			{
+				s.Push(i);
+			}
+
+			int nResult = 0;
+
+			while( s.Count > 0)
+			{
+				nResult += s.Pop();
+			}
+			st.Stop();
+			Console.WriteLine("결과 : {0} \t 시간: {1}", nResult, st.Elapsed);
+		}
+		static public void UsingCStack()
+		{
+			Console.WriteLine("Using Concurrent Stack start");
+
+			Stopwatch st = new Stopwatch();
+			var s = new ConcurrentStack<int>();
+
+			st.Start();
+
+			for (int i = 0; i < nUnti; ++i)
+			{
+				s.Push(i);
+			}
+
+			int nResult = 0;
+
+			while (s.Count > 0)
+			{
+				if(s.TryPop(out int nOut))
+				{
+					nResult += nOut;
+				}
+			}
+			st.Stop();
+			Console.WriteLine("UsingCStack 결과 : {0} \t 시간 : {1}", nResult, st.Elapsed);
+		}
+		static public void Compare()
+		{
+			Parallel.Invoke(UsingStack, UsingCStack);
+		}
+	}
+	//
+	static class TestSimpleTask
+	{
+		public static void Simple()
+		{
+			Task t = new Task(
+				() =>
+				{
+					Console.WriteLine("곁다리 Thread Begin");
+					int n = 0;
+					while ( n> 10000000) { ++n; }
+					Console.WriteLine("곁다리 Thread End");
+				}
+				);
+			t.Start();
+			Console.WriteLine("메인 쓰레드");
+			t.Wait();
+			Console.WriteLine("다시 메인");
+		}
+		public static void Simple2()
+		{
+			Task t1 = Task.Run(
+				() =>
+				{
+					Console.WriteLine("곁다리 Thread Begin");
+					int n = 0;
+					while (n > 10000000) { ++n; }
+					Console.WriteLine("곁다리 Thread End");
+				}
+				);
+			Task t2 = Task.Run(
+				() =>
+				{
+					Console.WriteLine("곁다리2 Thread Begin");
+					int n = 0;
+					while (n > 1000000) { ++n; }
+					Console.WriteLine("곁다리2 Thread End");
+				}
+			);
+			Console.WriteLine("메인 쓰레드 데헷, 곁다기 기둘");
+
+			Task.WaitAll(t1, t2);
+
+			Console.WriteLine(" id:{0} // status:{1}", t1.Id, t1.Status);
+			Console.WriteLine(" id:{0} // status:{1}", t2.Id, t2.Status);
+		}
+		public static void Simple3()
+		{
+			var t = Task<int>.Run( // 리턴값을 활용하는 테스크
+				() =>
+				{
+					Console.WriteLine("Thread Begin");
+
+					int a = 0;
+
+					while (a < 100000000) { ++a; }
+
+					Console.WriteLine("Thread End");
+
+					return a;
+				}
+			);
+
+			Console.WriteLine("main");
+
+			t.Wait(); // 주석 쳐보세요
+
+			Console.WriteLine("main2");
+
+			Console.WriteLine("Result {0}", t.Result);
+		}
+
+		static bool IsPrime(long number)
+		{
+			if (number < 2)
+				return false;
+
+			if (number == 2) { return true; }
+
+			if (number % 2 == 0)
+				return false;
+
+			if (number < 10000)
+			{
+				number /= 2;
+			}
+			else
+			{
+				number = (int)Math.Sqrt(number) + 1;
+			}
+
+			for (long i = 3; i < number; i += 2)
+			{
+				if (number % i == 0)
+					return false;
+			}
+
+			return true;
+		}
+
+		static bool IsPrime2(long number)
+		{
+			if (number < 2)
+				return false;
+
+			if (number % 2 == 0 && number != 2)
+				return false;
+
+			for (long i = 2; i < number; ++i)
+			{
+				if (number % i == 0)
+					return false;
+			}
+
+			return true;
+		}
+
+		public static void Simple4()
+		{
+			List<long> total = new List<long>();
+
+			Stopwatch s = new Stopwatch();
+
+			s.Start();
+
+			int nUntil = 100000;
+
+			Parallel.For(0, nUntil,
+				(long i) =>
+				{
+					if (IsPrime(i))
+					{
+						total.Add(i);
+					}
+				}
+			);
+
+			s.Stop();
+
+			Console.WriteLine("{0}과 {1} 사이의 소수 갯수는 {2}개", 0, nUntil, total.Count);
+			Console.WriteLine("계산 소요 시간 : {0}", s.Elapsed);
+		}
+
+
+
+		public static void Simple5()
+		{
+			Parallel.Invoke(Simple, Simple2, Simple3, Simple4);
+		}
+
+		public static void Simple4_Change(Tuple<int, int> a_Val)
+		{
+			List<long> total = new List<long>();
+
+			Stopwatch s = new Stopwatch();
+
+			s.Start();
+
+			Parallel.For(a_Val.Item1, a_Val.Item2,
+				(long i) =>
+				{
+					if (IsPrime(i))
+					{
+						total.Add(i);
+					}
+				}
+			);
+
+			s.Stop();
+
+			Console.WriteLine("{0}과 {1} 사이의 소수 갯수는 {2}개", a_Val.Item1, a_Val.Item2, total.Count);
+			Console.WriteLine("계산 소요 시간 : {0}", s.Elapsed);
+		}
+
+		public static void Simple6()
+		{
+			List<Tuple<int, int>> li = new List<Tuple<int, int>>();
+
+			for (int i = 0; i < 10; ++i)
+			{
+				li.Add(new Tuple<int, int>(i * 1000, i * 2000));
+			}
+
+			Parallel.ForEach(li, (val) => { Simple4_Change(val); });
+		}
+
+		// 예외 테스트
+		public static void Simple7()
+		{
+			List<int> li = new List<int>();
+
+			for (int i = 0; i < 5; ++i)
+			{
+				li.Add(i * 100000000 + i);
+			}
+
+			// 100000001
+
+			Parallel.ForEach(li,
+				(val) =>
+				{
+					Console.WriteLine("Im In");
+
+					if (val == 100000001)
+					{
+						Console.WriteLine("Throw 전");
+						throw new Exception("Test Exception");
+					}
+
+					if (IsPrime(val) == true)
+					{
+						Console.WriteLine("이건 소수");
+					}
+					else
+					{
+						Console.WriteLine("이건 !소수 // 소수가 아니면. 다수?");
+					}
+				}
+			);
+		}
+	}
+}
