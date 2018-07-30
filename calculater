@@ -1,0 +1,271 @@
+#pragma once
+#include "stdfx.h"
+
+
+typedef int Data;
+
+typedef struct _node
+{
+	Data data;
+	struct _node* next;
+} Node;
+
+typedef struct _listStack
+{
+	Node* head;
+} ListStack;
+
+typedef ListStack Stack;
+
+class Quiz03
+{
+private:
+	char inputChar[50];
+public:
+	Quiz03();
+	~Quiz03();
+
+	void init();
+	void release();
+	void update();
+	void render();
+
+	void StackInit(Stack* pstack);
+	int SIsEnpty(Stack* pstack);
+
+	void SPush(Stack* pstack, Data data);
+	Data SPop(Stack* pstack);
+	Data Speek(Stack* pstack);
+
+	//중위 계산법에서 후위 계산법으로 바꾸는 부분
+	void ConvertToPostFix(char exp[]);
+
+	//계산부분
+	int EvalRPNExp(char exp[]);
+
+	int GetOpPrec(char op);
+	int WhoPrecOp(char op1, char op2);
+};
+
+// heder
+#include "Quiz03.h"
+
+
+
+Quiz03::Quiz03()
+{
+}
+
+
+Quiz03::~Quiz03()
+{
+}
+
+void Quiz03::init()
+{
+}
+
+void Quiz03::release()
+{
+}
+
+void Quiz03::update()
+{
+	cout << "퀴즈 3번입니다 : ";
+	
+	cin >> inputChar;
+	cout << inputChar << " = ";
+
+	ConvertToPostFix(inputChar);
+
+	cout << EvalRPNExp(inputChar) << endl; 
+}
+
+void Quiz03::render()
+{
+}
+
+void Quiz03::StackInit(Stack * pstack)
+{
+	pstack->head = NULL;
+}
+
+int Quiz03::SIsEnpty(Stack * pstack)
+{
+	if (pstack->head == NULL) return TRUE;
+	else return FALSE;
+}
+
+void Quiz03::SPush(Stack * pstack, Data data)
+{
+	Node* newNode = (Node*)malloc(sizeof(Node));
+
+	newNode->data = data;
+	newNode->next = pstack->head;
+
+	pstack->head = newNode;
+}
+
+Data Quiz03::SPop(Stack * pstack)
+{
+	Data rdata;
+	Node* rnode;
+
+	if (SIsEnpty(pstack))
+	{
+		cout << "Stack Memoty Error!" << endl;
+		exit(-1);
+	}
+
+	rdata = pstack->head->data;
+	rnode = pstack->head;
+
+	pstack->head = pstack->head->next;
+	free(rnode);
+
+
+	return rdata;
+}
+
+Data Quiz03::Speek(Stack * pstack)
+{
+	if (SIsEnpty(pstack))
+	{
+		cout << "Stack Memory Error!" << endl;
+		exit(-1);
+	}
+
+	return pstack->head->data;
+}
+
+void Quiz03::ConvertToPostFix(char exp[])
+{
+	Stack stack;
+	int explen = strlen(exp);
+	char* convExp = (char*)malloc(explen + 1);
+
+	int idx = 0;
+	char tok, popOp;
+
+	memset(convExp, 0, sizeof(char)*explen + 1);
+	StackInit(&stack);
+
+	for (int i = 0; i < explen; i++)
+	{
+		tok = exp[i];
+		if (isdigit(tok))
+		{
+			convExp[idx++] = tok;
+		}
+		else
+		{
+			switch (tok)
+			{
+			case'{':
+				SPush(&stack, tok);
+				break;
+			case')':
+				while (1)
+				{
+					popOp = SPop(&stack);
+					if (popOp == '(')
+						break;
+					convExp[idx++] = popOp;
+				}
+				break;
+
+			case '+': case '-':
+			case '*': case '/':
+				while (!SIsEnpty(&stack) && WhoPrecOp(Speek(&stack), tok) >= 0)
+					convExp[idx++] = SPop(&stack);
+				SPush(&stack, tok);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	while (!SIsEnpty(&stack)) convExp[idx++] = SPop(&stack);
+
+	strcpy(exp, convExp);
+	free(convExp);
+}
+
+int Quiz03::EvalRPNExp(char exp[])
+{
+	Stack stack;
+	int expLen = strlen(exp);
+	int i;
+	char tok, op1, op2;
+
+	StackInit(&stack);
+
+	for (i = 0; i < expLen; i++)
+	{
+		tok = exp[i];
+
+		if (isdigit(tok))
+		{
+			SPush(&stack, tok - '0'); // 숫다로 변환하여 PUSH!
+		}
+		else
+		{
+			op2 = SPop(&stack); //먼저 꺼낸 값이 두번째 피연산자
+			op1 = SPop(&stack);
+			
+			switch (tok)
+			{
+			case '+':
+				SPush(&stack, op1 + op2);
+				break;
+			case '-':
+				SPush(&stack, op1 - op2);
+				break;
+			case '*':
+				SPush(&stack, op1 * op2);
+				break;
+			case '/':
+				SPush(&stack, op1 / op2);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	return SPop(&stack);
+}
+
+int Quiz03::GetOpPrec(char op)
+{
+	switch (op)
+	{
+	case'*':
+	case'/':
+		return 5;
+		break;
+	case'+':
+	case'-':
+		return 3;
+		break;
+	case'(':
+		return 1;
+	default:
+		break;
+	}
+	return -1; //등록되지 않은 연산자
+}
+
+int Quiz03::WhoPrecOp(char op1, char op2)
+{
+	int op1Prec = GetOpPrec(op1);
+	int op2Prec = GetOpPrec(op2);
+
+	if (op1Prec > op2Prec)
+		return 1;
+	else if (op1Prec < op2Prec)
+		return -1;
+	else return 0;
+}
+
+// cpp
