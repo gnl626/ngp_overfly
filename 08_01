@@ -1,0 +1,5 @@
+유니티 자습서
+AI-FSM 무한상태기체
+자습서-Physics 2D랑 3D보고 오기
+eee.transform.parent = this.transform;
+eee.transform.localPosition = Vector3.zero;
