@@ -18,3 +18,45 @@ if(Input.GetMouseButtonDown(0))
 	각각의 x값을 빼내
 	player의 x값과 비교해서 위치가 안에 이는지 없는지 확인
 }
+
+magica Voxel
+
+거리
+Distance, Magnitude
+
+랜덤
+random.range
+well 알고리즘
+비트연산시 바이트순서 체크
+
+Object.Find(string) 찾아보기
+
+코루틴
+-C#이랑 유니티랑 살짝 다르다
+-C#은 문법적 유니티는 게임오브젝트랑 같이돈다
+스타트에서 사용가능
+코루틴에서 코루틴 만들기 ㄴㄴ
+
+동기/비동기
+
+--
+Collapse 누르면 동일한 글자면 겹쳐서 보여줌
+Error Pause: Error 뜨면 멈춤
+Scenes -> new Scenes
+Scrip -> new Folder -> TestScene C#스크립트
+
+public gameObject
+public Transform t;
+t.Translate(Vector3.one * 4);
+
+UI는 canvas의 자식으로 그려야함
+eventSystem
+
+File -> build Settings
+
+ECS
+Job
+Burst Compiler
+
+SIMD
+unsafe
