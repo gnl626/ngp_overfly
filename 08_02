@@ -1,0 +1,20 @@
+픽업이랑 플레이어랑 충돌체크 안됌
+집기 안됌
+마우스버튼 클릭 1 맞나
+박스 메테리얼 추가하는 법
+
+eee.transform.parent = this.transform; 
+eee.transform.localPosition = Vector3.zero; <- 이거 쓰는 법
+
+Start에 winText.text = ""; 했는데 왜 Win Text라고 출력
+
+if (other.gameObject.CompareTag ("Pick Up")) // Pick Up이랑 충돌체크 아님?
+other.gameObject.SetActive(false); // 이게 Pick Up 사라지는거 아님?
+else if(other.gameObject.CompareTag("Box")) // Box는 뭐지 어딨지
+
+if(Input.GetMouseButtonDown(0))
+{
+	12개의 Pick Up을 for문으로 돌아서
+	각각의 x값을 빼내
+	player의 x값과 비교해서 위치가 안에 이는지 없는지 확인
+}
